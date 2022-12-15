@@ -1,6 +1,6 @@
 name: code2docs_cli
 description: CLI for the code2docs library
-version: 0.0.1-alpha
+version: 0.0.1-dev.1
 repository: https://github.com/angelosilvestre/code2docs
 
 executables:
@@ -11,7 +11,7 @@ environment:
 
 dependencies: 
   args: ^2.3.1
-  code2docs: ^0.0.1-alpha   
+  code2docs: ^0.0.1-dev.1 
   path: ^1.8.3
 
 

@@ -1,6 +1,6 @@
 name: code2docs
 description: A library to generate samples from source code
-version: 0.0.1-alpha
+version: 0.0.1-dev.1
 repository: https://github.com/angelosilvestre/code2docs
 
 environment:
