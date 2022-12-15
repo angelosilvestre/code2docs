@@ -1,6 +1,7 @@
 name: code2docs
-description: A starting point for Dart libraries or applications.
-version: 0.0.1
+description: A library to generate samples from source code
+version: 0.0.1-alpha
+repository: https://github.com/angelosilvestre/code2docs
 
 environment:
   sdk: '>=2.19.0-374.0.dev <3.0.0'
