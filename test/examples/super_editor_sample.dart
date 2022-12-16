@@ -1,10 +1,10 @@
 /// This sample shows the creation of a unselectable component in `SuperEditor`.
 final superEditorSample = """
-// TITLE: Creating an unselectable HR.
-// STEPS:
-// 1: Create a component that returns a `BoxComponent` in the build method.
-// 2: Create a `ComponentBuilder` that returns the custom component.
-// 3: Add the custom `ComponentBuilder` to the editor's componentBuilders.
+// code2docs:TITLE: Creating an unselectable HR.
+// code2docs:STEPS:
+// code2docs:1: Create a component that returns a `BoxComponent` in the build method.
+// code2docs:2: Create a `ComponentBuilder` that returns the custom component.
+// code2docs:3: Add the custom `ComponentBuilder` to the editor's componentBuilders.
 import 'package:flutter/material.dart';
 import 'package:super_editor/super_editor.dart';
 
@@ -62,7 +62,7 @@ class _UnselectableHrDemoState extends State<UnselectableHrDemo> {
       stylesheet: defaultStylesheet.copyWith(
         documentPadding: const EdgeInsets.symmetric(vertical: 56, horizontal: 24),
       ),
-      //>step:3 Add this code in the end of the `SuperEditor` creation.
+      // code2docs:>step:3 Add this code in the end of the `SuperEditor` creation.
       
       // Add a new component builder that creates an unselectable
       // horizontal rule, instead of creating the usual selectable kind.
@@ -70,12 +70,12 @@ class _UnselectableHrDemoState extends State<UnselectableHrDemo> {
         const UnselectableHrComponentBuilder(),
         ...defaultComponentBuilders,
       ],
-      //<step:3
+      // code2docs:<step:3
     );
   }
 }
 
-//>step:2
+// code2docs:>step:2
 /// SuperEditor [ComponentBuilder] that builds a horizontal rule that is
 /// not selectable.
 class UnselectableHrComponentBuilder implements ComponentBuilder {
@@ -100,9 +100,9 @@ class UnselectableHrComponentBuilder implements ComponentBuilder {
     );
   }
 }
-//<step:2
+// code2docs:<step:2
 
-//>step:1
+// code2docs:>step:1
 class _UnselectableHorizontalRuleComponent extends StatelessWidget {
   const _UnselectableHorizontalRuleComponent({
     Key? key,
@@ -123,7 +123,7 @@ class _UnselectableHorizontalRuleComponent extends StatelessWidget {
     );
   }
 }
-//<step:1
+// code2docs:<step:1
 """;
 
 final superEditorSampleMarkdown = """

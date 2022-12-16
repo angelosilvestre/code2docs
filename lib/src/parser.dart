@@ -34,30 +34,30 @@ class StepByStepSourceParser {
   String get _current => _lines[_currentLineIndex];
 
   /// Matches the string `// STEPS:`
-  final _stepStartRegex = RegExp(r'//\sSTEPS:');
+  final _stepStartRegex = RegExp(r'//\scode2docs:STEPS:');
 
   /// Matches the definition of a step.
   ///
   /// For example: `// 1: Create the main function.`
-  final _stepRegex = RegExp(r'//\s(\d+):(.+)');
+  final _stepRegex = RegExp(r'//\scode2docs:(\d+):(.+)');
 
   /// Matches the title definition.
   ///
   /// For example: `// TITLE: First sample.`
-  final _titleRegex = RegExp(r'\s*//\sTITLE:\s?(.*)');
+  final _titleRegex = RegExp(r'\s*//\scode2docs:TITLE:\s?(.*)');
 
   /// Matches the start of a code block that belongs to a step.
   ///
   /// For example: `//>step:1 Description of the code block.`
-  final _blockStartRegex = RegExp(r'\s*//>step:(\d+)(.*)?');
+  final _blockStartRegex = RegExp(r'\s*//\scode2docs:>step:(\d+)(.*)?');
 
   /// Matches the end of a code block that belongs to a step.
   ///
   /// For example: `//<step:1`
-  final _blockEndRegex = RegExp(r'\s*//<step:(\d+)');
+  final _blockEndRegex = RegExp(r'\s*//\scode2docs:<step:(\d+)');
 
   /// Matches a comment.
-  final _commentRegex = RegExp(r'^\s*\/\/[^\/]\s*(.*)');
+  final _commentRegex = RegExp(r'^\s*//[^\/]\s*(.*)');
 
   StepByStepCodeSample parse() {
     if (_isDone) {

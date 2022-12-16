@@ -8,13 +8,13 @@ void main() {
   group('parser', () {
     test('parses a snippet description', () {
       final input = """
-// TITLE: a
-// STEPS:
-// 1: step 2
-//>step:1 The description can have
+// code2docs:TITLE: a
+// code2docs:STEPS:
+// code2docs:1: step 2
+// code2docs:>step:1 The description can have
 // multiple lines
 code
-//<step
+// code2docs:<step
 void main() {}
 """;
       final parser = StepByStepSourceParser(input);
@@ -252,9 +252,9 @@ class _UnselectableHorizontalRuleComponent extends StatelessWidget {
 
     test("rejects when step doesn't start with one", () {
       final input = """
-// TITLE: a
-// STEPS:
-// 2: step 2
+// code2docs:TITLE: a
+// code2docs:STEPS:
+// code2docs:2: step 2
 void main() {}
 """;
       final parser = StepByStepSourceParser(input);
@@ -263,11 +263,11 @@ void main() {}
 
     test('rejects steps out of order', () {
       final input = """
-// TITLE: a
-// STEPS:
-// 1: step 1
-// 3: step 3
-// 2: step 2
+// code2docs:TITLE: a
+// code2docs:STEPS:
+// code2docs:1: step 1
+// code2docs:3: step 3
+// code2docs:2: step 2
 void main() {}
 """;
       final parser = StepByStepSourceParser(input);

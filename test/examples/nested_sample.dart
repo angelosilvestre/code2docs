@@ -7,28 +7,28 @@
 ///
 /// Continuation of Step 1.
 final nestedSample = """
-// TITLE: Creating a test
-// STEPS:
-// 1: Import the test package.
-// 2: Create the main function.
-// 3: Create a test group.
-// 4: Create a test method.
-//>step:1
+// code2docs:TITLE: Creating a test
+// code2docs:STEPS:
+// code2docs:1: Import the test package.
+// code2docs:2: Create the main function.
+// code2docs:3: Create a test group.
+// code2docs:4: Create a test method.
+// code2docs:>step:1
 import 'package:test/test.dart';
-//<step:1
-//>step:2
+// code2docs:<step:1
+// code2docs:>step:2
   void main() {
-    //>step:3 Add this to the main function.
+    // code2docs:>step:3 Add this to the main function.
     group('my test group', () {
-      //>step:4 Add this inside the test group.
+      // code2docs:>step:4 Add this inside the test group.
       test('my test method', () {
 
       });
-      //<step:4
+      // code2docs:<step:4
     });
-    //<step:3
+    // code2docs:<step:3
   }
-//<step:2""";
+// code2docs:<step:2""";
 
 final nestedSampleMarkdown = """
 # Creating a test

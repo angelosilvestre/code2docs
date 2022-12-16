@@ -15,38 +15,38 @@ void main() {
  At the start of the file, define a title for the sample code and the list of steps:
 
 ```dart
-// TITLE: This is the sample code.
-// STEPS:
-// 1: Print hello.
-// 2: Print world.
+// code2docs:TITLE: This is the sample code.
+// code2docs:STEPS:
+// code2docs:1: Print hello.
+// code2docs:2: Print world.
 // The description can be multiline.
-// 3: Describe step 3.
+// code2docs:3: Describe step 3.
 ```
 
-Delimit the start of a code block that belongs to a specific step by preceding the line with a comment containing `//>step:{step number} {block description}`:
+Delimit the start of a code block that belongs to a specific step by preceding the line with a comment containing `// code2docs:>step:{step number} {block description}`:
 ```dart
 void main() {
-    //>step:1 Add this to the beginning of main.
+    // code2docs:>step:1 Add this to the beginning of main.
     print('hello,');
-    //>step:2 Add this after `print('hello,');`
+    // code2docs:>step:2 Add this after `print('hello,');`
     print('world');
-    //>step:3 The description is optional.
+    // code2docs:>step:3 The description is optional.
     print('The end.');
 }
 ```
 
-Delimit the end of a code block that belongs to a specific step by following the line with a comment containing `//<step:{step number}`:
+Delimit the end of a code block that belongs to a specific step by following the line with a comment containing `// code2docs:<step:{step number}`:
 ```dart
 void main() {
-    //>step:1 Add this to the beginning of main.
+    // code2docs:>step:1 Add this to the beginning of main.
     print('hello,');
-    //<step:1
-    //>step:2 Add this after `print('hello,');`
+    // code2docs:<step:1
+    // code2docs:>step:2 Add this after `print('hello,');`
     print('world');
-    //<step:2
-    //>step:3 The description is optional.
+    // code2docs:<step:2
+    // code2docs:>step:3 The description is optional.
     print('The end.');
-    //<step:3    
+    // code2docs:<step:3    
 }
 ```
 <details>
@@ -100,11 +100,11 @@ void main() {
   <summary>View source code</summary>
 
 ```dart
-// TITLE: Creating an unselectable HR.
-// STEPS:
-// 1: Create a component that returns a `BoxComponent` in the build method.
-// 2: Create a `ComponentBuilder` that returns the custom component.
-// 3: Add the custom `ComponentBuilder` to the editor's componentBuilders.
+// code2docs:TITLE: Creating an unselectable HR.
+// code2docs:STEPS:
+// code2docs:1: Create a component that returns a `BoxComponent` in the build method.
+// code2docs:2: Create a `ComponentBuilder` that returns the custom component.
+// code2docs:3: Add the custom `ComponentBuilder` to the editor's componentBuilders.
 import 'package:flutter/material.dart';
 import 'package:super_editor/super_editor.dart';
 
@@ -162,19 +162,20 @@ class _UnselectableHrDemoState extends State<UnselectableHrDemo> {
       stylesheet: defaultStylesheet.copyWith(
         documentPadding: const EdgeInsets.symmetric(vertical: 56, horizontal: 24),
       ),
-      //>step:3 Add this code in the end of the `SuperEditor` creation.
+      // code2docs:>step:3 Add this code in the end of the `SuperEditor` creation.
+      
       // Add a new component builder that creates an unselectable
       // horizontal rule, instead of creating the usual selectable kind.
       componentBuilders: [
         const UnselectableHrComponentBuilder(),
         ...defaultComponentBuilders,
       ],
-      //<step:3
+      // code2docs:<step:3
     );
   }
 }
 
-//>step:2
+// code2docs:>step:2
 /// SuperEditor [ComponentBuilder] that builds a horizontal rule that is
 /// not selectable.
 class UnselectableHrComponentBuilder implements ComponentBuilder {
@@ -199,9 +200,9 @@ class UnselectableHrComponentBuilder implements ComponentBuilder {
     );
   }
 }
-//<step:2
+// code2docs:<step:2
 
-//>step:1
+// code2docs:>step:1
 class _UnselectableHorizontalRuleComponent extends StatelessWidget {
   const _UnselectableHorizontalRuleComponent({
     Key? key,
@@ -222,7 +223,7 @@ class _UnselectableHorizontalRuleComponent extends StatelessWidget {
     );
   }
 }
-//<step:1
+// code2docs:<step:1
 ```
 </details>
 
