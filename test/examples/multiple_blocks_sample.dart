@@ -35,9 +35,9 @@ Implement the methods.
 ``` 
   print('implementation).
 ```
-> Add this inside method1()
+>Add this inside method1()
 ``` 
   print('implementation).
 ```
-> Add this inside method2()
+>Add this inside method2()
 """;

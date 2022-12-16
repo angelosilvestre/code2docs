@@ -63,6 +63,7 @@ class _UnselectableHrDemoState extends State<UnselectableHrDemo> {
         documentPadding: const EdgeInsets.symmetric(vertical: 56, horizontal: 24),
       ),
       //>step:3 Add this code in the end of the `SuperEditor` creation.
+      
       // Add a new component builder that creates an unselectable
       // horizontal rule, instead of creating the usual selectable kind.
       componentBuilders: [
@@ -247,6 +248,7 @@ class UnselectableHrComponentBuilder implements ComponentBuilder {
 
 Add the custom `ComponentBuilder` to the editor's componentBuilders.
 ``` 
+      
       // Add a new component builder that creates an unselectable
       // horizontal rule, instead of creating the usual selectable kind.
       componentBuilders: [
@@ -254,5 +256,5 @@ Add the custom `ComponentBuilder` to the editor's componentBuilders.
         ...defaultComponentBuilders,
       ],
 ```
-> Add this code in the end of the `SuperEditor` creation.
+>Add this code in the end of the `SuperEditor` creation.
 """;

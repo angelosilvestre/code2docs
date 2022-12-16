@@ -57,7 +57,7 @@ class StepByStepSourceParser {
   final _blockEndRegex = RegExp(r'\s*//<step:(\d+)');
 
   /// Matches a comment.
-  final _commentRegex = RegExp(r'//\s*(.*)');
+  final _commentRegex = RegExp(r'^\s*\/\/[^\/]\s*(.*)');
 
   StepByStepCodeSample parse() {
     if (_isDone) {
@@ -86,7 +86,7 @@ class StepByStepSourceParser {
   void _parseTitle() {
     final match = _titleRegex.firstMatch(_current);
     if (match == null) {
-      throw Exception('The source must start with a title');
+      _parserError('The source must start with a title');
     }
 
     _title = match.group(1)!.trim();
@@ -98,7 +98,7 @@ class StepByStepSourceParser {
   /// Parses the step definitions that are present after the title.
   void _parseStepList() {
     if (!_stepStartRegex.hasMatch(_current)) {
-      throw Exception('The code must have a STEPS token');
+      _parserError('The code must have a STEPS token');
     }
 
     // Consume the STEPS line.
@@ -130,7 +130,13 @@ class StepByStepSourceParser {
     // The regex ensures we have a step number and a step description.
     final stepNumber = int.parse(match.group(1)!);
     if (stepNumber <= 0) {
-      throw Exception('Step number should be greater than zero');
+      _parserError('Step number should be greater than zero');
+    }
+
+    if (_steps.isEmpty && stepNumber != 1) {
+      _parserError('The step list must start with step 1');
+    } else if (_steps.isNotEmpty && stepNumber != _steps.last.number + 1) {
+      _parserError('Step $stepNumber is out of order. Expected step: ${_steps.last.number + 1}');
     }
 
     final descriptionLines = [match.group(2)!.trim()];
@@ -140,7 +146,7 @@ class StepByStepSourceParser {
 
     // Consume the following lines as description until we find
     // another step or a line which isn't a comment.
-    while (!_stepRegex.hasMatch(_current) && !_blockStartRegex.hasMatch(_current)) {
+    while (!_isDone && !_stepRegex.hasMatch(_current) && !_blockStartRegex.hasMatch(_current)) {
       final match = _commentRegex.firstMatch(_current);
       if (match == null) {
         break;
@@ -149,8 +155,6 @@ class StepByStepSourceParser {
       descriptionLines.add(match.group(1)!.trim());
       _advance();
     }
-
-    // TODO: validate that the steps are in order.
 
     return CodeSampleStep(
       number: stepNumber,
@@ -185,21 +189,34 @@ class StepByStepSourceParser {
     assert(blockStartMatch != null);
 
     final stepNumber = int.parse(blockStartMatch!.group(1)!);
-    final blockDescription = blockStartMatch.group(2) ?? '';
+    final blockDescription = <String>[(blockStartMatch.group(2) ?? '').trim()];
+
+    // Consume the step number line.
+    _advance();
+
+    // Consume the following lines as description until we find
+    // a line which isn't a comment.
+    while (!_isDone && _commentRegex.hasMatch(_current)) {
+      final match = _commentRegex.firstMatch(_current);
+      if (match == null) {
+        break;
+      }
+
+      blockDescription.add(match.group(1)!.trim());
+
+      _advance();
+    }
 
     if (stepNumber > _steps.length) {
-      throw Exception('Step $stepNumber not found');
+      _parserError('Step $stepNumber not found');
     }
     final step = _steps[stepNumber - 1];
 
     final currentCodeBlock = CodeBlock(
-      description: blockDescription,
+      description: blockDescription.join('\n'),
       segments: [],
     );
     step.codeBlocks.add(currentCodeBlock);
-
-    // Consume the step number line.
-    _advance();
 
     // Hold the lines that belong to the current source segment.
     List<String> lines = <String>[];
@@ -211,8 +228,6 @@ class StepByStepSourceParser {
         _advance();
         break;
       }
-
-      // TODO: validate the step number.
 
       if (_blockStartRegex.hasMatch(_current)) {
         // We found a code block that belongs to another step.
@@ -251,5 +266,26 @@ class StepByStepSourceParser {
       _startingCode.segments.add(_sourceSegments.length);
       _sourceSegments.add(CodeSegment(lines: lines));
     }
+  }
+
+  Never _parserError(String message) {
+    throw ParserException(
+      message: message,
+      line: _currentLineIndex,
+    );
+  }
+}
+
+class ParserException extends ArgumentError {
+  ParserException({
+    required this.line,
+    required String message,
+  }) : super(message);
+
+  final int line;
+
+  @override
+  String toString() {
+    return 'Parser Exception: $message. Line: $line';
   }
 }

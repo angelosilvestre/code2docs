@@ -50,7 +50,7 @@ Create a test group.
     group('my test group', () {
     });
 ```
-> Add this to the main function.
+>Add this to the main function.
 
 Create a test method.
 ``` 
@@ -58,5 +58,5 @@ Create a test method.
 
       });
 ```
-> Add this inside the test group.
+>Add this inside the test group.
 """;

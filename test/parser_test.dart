@@ -6,6 +6,22 @@ import 'examples/super_editor_sample.dart';
 
 void main() {
   group('parser', () {
+    test('parses a snippet description', () {
+      final input = """
+// TITLE: a
+// STEPS:
+// 1: step 2
+//>step:1 The description can have
+// multiple lines
+code
+//<step
+void main() {}
+""";
+      final parser = StepByStepSourceParser(input);
+      final sample = parser.parse();
+      expect(sample.steps.first.codeBlocks.first.description, "The description can have\nmultiple lines");
+    });
+
     test('parses nested steps', () {
       final parser = StepByStepSourceParser(nestedSample);
       final sample = parser.parse();
@@ -88,7 +104,10 @@ void main() {
             number: 3,
             description: "Add the custom `ComponentBuilder` to the editor's componentBuilders.",
             codeBlocks: [
-              CodeBlock(segments: [1])
+              CodeBlock(
+                description: 'Add this code in the end of the `SuperEditor` creation.',
+                segments: [1],
+              )
             ],
           ),
         ],
@@ -156,6 +175,7 @@ class _UnselectableHrDemoState extends State<UnselectableHrDemo> {
           ),
           CodeSegment(
             lines: """
+      
       // Add a new component builder that creates an unselectable
       // horizontal rule, instead of creating the usual selectable kind.
       componentBuilders: [
@@ -228,6 +248,30 @@ class _UnselectableHorizontalRuleComponent extends StatelessWidget {
       );
 
       expect(doc, expectedSource);
+    });
+
+    test("rejects when step doesn't start with one", () {
+      final input = """
+// TITLE: a
+// STEPS:
+// 2: step 2
+void main() {}
+""";
+      final parser = StepByStepSourceParser(input);
+      expect(() => parser.parse(), throwsA(isA<ParserException>()));
+    });
+
+    test('rejects steps out of order', () {
+      final input = """
+// TITLE: a
+// STEPS:
+// 1: step 1
+// 3: step 3
+// 2: step 2
+void main() {}
+""";
+      final parser = StepByStepSourceParser(input);
+      expect(() => parser.parse(), throwsA(isA<ParserException>()));
     });
   });
 }
